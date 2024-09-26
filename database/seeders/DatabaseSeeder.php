@@ -44,5 +44,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(DopingSeeder::class);
         // $this->call(PadecimientosSeeder::class);
         // $this->call(IncapacidadSeeder::class);
+
+        $this->call(PostSeeder::class);
     }
 }
