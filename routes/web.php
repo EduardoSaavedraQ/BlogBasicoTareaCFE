@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SoporteController;
 use App\Http\Controllers\EntregaRecepcionController;
 use App\Http\Controllers\ForceChangeDefaultPasswordController as FCDP;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UsuarioPendienteController;
 
 /*
@@ -76,3 +77,7 @@ Route::middleware(['auth', 'bloquear.form.datos'])->group(function () {
     Route::post('llenar-datos-personales', [\App\Http\Controllers\DatosPersonalesController::class, 'guardarDatos'])
         ->name('llenar-datos-personales.store');
 });
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+
+//Route::resource('posts', PostController::class);

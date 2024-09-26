@@ -322,6 +322,8 @@
                     </x-jet-dropdown>
                 </div>
             </div>
+            
+            
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -415,5 +417,35 @@
             </div>
         </div>
     </div>
+
+    <!--Posts-->
+    <div class="ml-10 mt-2 px-3 py-1 hover:bg-gray-100 relative">
+        <button class="w-full text-left flex items-center outline-none focus:outline-none text-black"  onclick="toggleMenu()">
+            <span class="pr-1 flex-1">Posts</span>
+            <span class="mr-auto">
+                <svg class="fill-current h-4 w-4 transition duration-150 ease-in-out"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+            </span>
+        </button>
+    
+        <ul class="bg-white border rounded-sm absolute transition duration-150 ease-in-out origin-top-left min-w-32 group-hover:scale-100 hidden" id="postsDropdown">
+            <a href="{{route('posts.index')}}">
+                <li class="px-3 py-1 hover:bg-gray-100">Ver posts</li>
+            </a>
+            <a href="#">
+                <li class="px-3 py-1 hover:bg-gray-100">Crear Post</li>
+            </a>
+        </ul>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const dropdown = document.getElementById('postsDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+    </script>
+
 </nav>
 <div class="h-20"></div>
