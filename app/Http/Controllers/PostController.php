@@ -7,10 +7,19 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index() {
-        $posts = Post::all();
+    public function index(Request $request) {
+        $author = $request->query('author', null); // Puede ser null si no se pasa
+        $order = $request->query('order'); // Valor por defecto es 'desc'
 
-        return view('posts.index')->with(["posts" => $posts]);
-        //return "hola";
+        if($order !== 'asc' && $order !== 'desc')
+            $order = 'desc';
+        
+        $posts = Post::select('id', 'title', 'created_at', 'author_id')->orderBy('created_at', $order)->get();
+
+        return view('posts.index')->with([
+        "posts" => $posts,
+        "author" => $author,
+        "order" => $order
+        ]);
     }
 }

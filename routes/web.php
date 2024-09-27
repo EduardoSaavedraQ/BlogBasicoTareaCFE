@@ -78,6 +78,7 @@ Route::middleware(['auth', 'bloquear.form.datos'])->group(function () {
         ->name('llenar-datos-personales.store');
 });
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+//Route::get('/posts/{order?}/{author?}', [PostController::class, 'index'])->name('posts.index');
 
-//Route::resource('posts', PostController::class);
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/prueba', [PostController::class, 'prueba'])->name('posts.prueba');

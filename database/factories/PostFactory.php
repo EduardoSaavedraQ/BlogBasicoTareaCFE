@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,8 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'content' => fake()->paragraph(),
-            'author_id' => fake()->numberBetween(0, 100)
+            'author_id' => fake()->numberBetween(0, 100),
+            'created_at' => Carbon::now()-> subDays(rand(0, 30))
         ];
     }
 }
