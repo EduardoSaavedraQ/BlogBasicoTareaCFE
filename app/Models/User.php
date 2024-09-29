@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Datosuser;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -87,5 +87,12 @@ class User extends Authenticatable
     public function post(): HasMany
     {
         return $this->hasMany(Post::class, 'author_id');
+    }
+
+    public function scopeSearchByName(Builder $query, $searchTerm)
+    {
+        return $query->whereHas('datosuser', function (Builder $q) use ($searchTerm) {
+            $q->whereRaw("CONCAT(nombre, ' ', apellido_paterno, ' ', apellido_materno) LIKE ?", ["%{$searchTerm}%"]);
+        });
     }
 }

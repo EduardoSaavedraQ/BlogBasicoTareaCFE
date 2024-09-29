@@ -13,13 +13,17 @@ class PostController extends Controller
 
         if($order !== 'asc' && $order !== 'desc')
             $order = 'desc';
-        
-        $posts = Post::select('id', 'title', 'created_at', 'author_id')->orderBy('created_at', $order)->get();
+
+        $query = Post::select('id', 'title', 'created_at', 'author_id')->orderBy('created_at', $order);
+        if($author !== null)
+            $query->authorFilter($author);
+
+        $posts = $query->get();
 
         return view('posts.index')->with([
-        "posts" => $posts,
-        "author" => $author,
-        "order" => $order
+            "posts" => $posts,
+            "author" => $author,
+            "order" => $order
         ]);
     }
 }
