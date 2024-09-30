@@ -63,4 +63,12 @@ class PostController extends Controller
 
         return redirect()->back()->with('success', 'Post creado con éxito.');
     }
+
+    public function show($id) {
+        $post = Post::find($id);
+        //return asset('images/' . $post->image_path);
+        //dd($post);
+        //return $post;
+        return view('posts.show', compact('post'));
+    }
 }
