@@ -10,6 +10,7 @@ class PostController extends Controller
     public function index(Request $request) {
         $author = $request->query('author', null); // Puede ser null si no se pasa
         $order = $request->query('order'); // Valor por defecto es 'desc'
+        $perpage = 6;
 
         if($order !== 'asc' && $order !== 'desc')
             $order = 'desc';
@@ -18,7 +19,17 @@ class PostController extends Controller
         if($author !== null)
             $query->authorFilter($author);
 
-        $posts = $query->get();
+        $posts = $query->paginate($perpage);
+
+        if ($request->ajax()) {
+            if ($posts->currentPage() >= $posts->lastPage()) {
+                //return response()->json(['no_more_posts' => true]);
+                return 'no_more_posts';
+            }
+            return view('posts.partials.posts', compact('posts'))->render(); // Renderiza solo la lista de posts para el ajax
+        }
+    
+        return view('posts.index', compact('posts', 'author', 'order'));
 
         return view('posts.index')->with([
             "posts" => $posts,

@@ -10,9 +10,9 @@
         {{-- <link rel="stylesheet" href="{{ asset('plugins/dataTables/css/jquery.dataTables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/dataTables/css/responsive.dataTables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/customDataTables.css') }}"> --}}
-    @endsection
+        <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 
-    
+    @endsection
     <form class="max-w-md mx-auto mt-2" method="GET" action="{{route('posts.index')}}">
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
         <div class="relative">
@@ -46,26 +46,54 @@
         </div>
     @else
         <div class="container mx-auto mt-3">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                @foreach ($posts as $post)
-                    <div class="max-w-sm p-6 bg-white border-2 border-green-500 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
-                        <a href="#">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$post->title}}</h5>
-                        </a>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Por {{$post->author->datos->getNombreCompleto()}}</p>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">El {{explode(' ', $post->created_at)[0]}}</p>
-                        <div class="mt-auto"> <!-- Esta clase asegura que el botón se empuje hacia abajo -->
-                            <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Leer más
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="post-list">
+                @include('posts.partials.posts')
             </div>
         </div>
-    @endif
+        
+        <div class="container mt-3 text-center">
+            <button id="load-more-btn" data-page="2" class="btn btn-primary mx-auto block">Cargar más</button>
+            <span id="loader" style="display:none"></span>    
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            let loadMoreBtn = document.getElementById('load-more-btn');
+            let loadingIndicator = document.getElementById('loader');
+            let postList = document.getElementById('post-list');
     
+            loadMoreBtn.addEventListener('click', function() {
+                let page = loadMoreBtn.getAttribute('data-page');
+                let url = `{{ route('posts.index') }}?page=${page}`;
+    
+                loadMoreBtn.style.display = 'none';
+                loadingIndicator.style.display = 'block'; // Mostrar el indicador de carga
+    
+                fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(data => {
+                    setTimeout(() => {
+                        loadingIndicator.style.display = 'none'; // Ocultar el indicador de carga
+                        loadMoreBtn.style.display = 'block';
+                        if(data === 'no_more_posts') {
+                            loadMoreBtn.textContent = 'No hay más posts';
+                            loadMoreBtn.disabled = true;
+                        }
+                        else {
+                            postList.insertAdjacentHTML('beforeend', data); // Añadir los nuevos posts
+                            loadMoreBtn.setAttribute('data-page', parseInt(page) + 1); // Incrementar la página
+                        }
+                    }, 3000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingIndicator.style.display = 'none';
+                });
+            });
+        });
+        </script>
+    @endif
 </x-app2>
