@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use PharIo\Manifest\Author;
 
 class PostController extends Controller
 {
@@ -30,11 +32,35 @@ class PostController extends Controller
         }
     
         return view('posts.index', compact('posts', 'author', 'order'));
+    }
 
-        return view('posts.index')->with([
-            "posts" => $posts,
-            "author" => $author,
-            "order" => $order
+    public function create() {
+        return view('posts.create');
+    }
+
+    public function store(Request $request) {
+        $request->validate([
+            'file' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title' => 'required',
+            'content' => 'required'
         ]);
+
+        //dd($request->all());
+        $imageName = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
+
+        // Crea el post con el ID del usuario autenticado
+        Post::create([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+            'image_path' => $imageName,
+            'author_id' => Auth::id(), // Obtiene el ID del usuario autenticado
+        ]);
+
+        return redirect()->back()->with('success', 'Post creado con éxito.');
     }
 }

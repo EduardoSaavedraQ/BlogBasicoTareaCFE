@@ -434,8 +434,8 @@
             <a href="{{route('posts.index')}}">
                 <li class="px-3 py-1 hover:bg-gray-100">Ver posts</li>
             </a>
-            <a href="#">
-                <li class="px-3 py-1 hover:bg-gray-100">Crear Post</li>
+            <a href="{{ route('posts.create') }}">
+                <li class="px-3 py-1 hover:bg-gray-100">Publicar post</li>
             </a>
         </ul>
     </div>

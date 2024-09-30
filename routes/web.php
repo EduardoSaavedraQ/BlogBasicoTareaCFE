@@ -81,4 +81,5 @@ Route::middleware(['auth', 'bloquear.form.datos'])->group(function () {
 //Route::get('/posts/{order?}/{author?}', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/posts/prueba', [PostController::class, 'prueba'])->name('posts.prueba');
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
