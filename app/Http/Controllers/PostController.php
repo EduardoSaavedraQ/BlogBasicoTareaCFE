@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PharIo\Manifest\Author;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends Controller
 {
@@ -45,7 +46,6 @@ class PostController extends Controller
             'content' => 'required'
         ]);
 
-        //dd($request->all());
         $imageName = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -66,9 +66,22 @@ class PostController extends Controller
 
     public function show($id) {
         $post = Post::find($id);
-        //return asset('images/' . $post->image_path);
-        //dd($post);
-        //return $post;
         return view('posts.show', compact('post'));
+    }
+
+    public function admin() {
+        //$posts = Post::all();
+        return view('posts.admin');
+    }
+
+    public function dataTable() {
+        $posts = Post::with(['author.datos'])->select('id', 'title', 'created_at', 'author_id');
+        
+        return DataTables::eloquent($posts)
+        ->addColumn('author', function ($post) {
+            // Accedemos al nombre completo usando el método que ya tienes en el modelo Datosuser
+            return $post->author->datos->getNombreCompleto();
+        })
+        ->toJson();
     }
 }

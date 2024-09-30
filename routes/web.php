@@ -80,7 +80,11 @@ Route::middleware(['auth', 'bloquear.form.datos'])->group(function () {
 
 //Route::get('/posts/{order?}/{author?}', [PostController::class, 'index'])->name('posts.index');
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+Route::controller(PostController::class)->group(function() {
+    Route::get('/posts', 'index')->name('posts.index');
+    Route::get('/posts/create', 'create')->name('posts.create');
+    Route::post('/posts/store', 'store')->name('posts.store');
+    Route::get('/posts/admin', 'admin')->name('posts.admin');
+    Route::get('/posts/dataTable', 'dataTable')->name('posts.dataTable');
+    Route::get('/posts/{id}', 'show')->name('posts.show');
+});
