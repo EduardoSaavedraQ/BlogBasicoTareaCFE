@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 class Post extends Model
@@ -28,5 +29,14 @@ class Post extends Model
         return $query->whereHas('author.datos', function($query) use ($partialName) {
             $query->whereRaw("UPPER(CONCAT(datosusers.nombre, ' ', datosusers.paterno, ' ', datosusers.materno) LIKE ?)", ["%{$partialName}%"]);
         });
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function hasLikedBy(User $user) {
+        return $this->likes()->where('user_rpe', $user->rpe)->exists();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Post;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PharIo\Manifest\Author;
@@ -64,13 +66,11 @@ class PostController extends Controller
         return redirect()->back()->with('success', 'Post creado con éxito.');
     }
 
-    public function show($id) {
-        $post = Post::find($id);
+    public function show(Post $post) {
         return view('posts.show', compact('post'));
     }
 
     public function admin() {
-        //$posts = Post::all();
         return view('posts.admin');
     }
 
@@ -83,5 +83,21 @@ class PostController extends Controller
             return $post->author->datos->getNombreCompleto();
         })
         ->toJson();
+    }
+
+    public function like(Post $post) {
+        $user = auth()->user();
+        
+        if ($post->hasLikedBy($user))
+            // Si ya ha dado el like, eliminar el like
+            $post->likes()->where('user_rpe', $user->rpe)->delete();
+        else
+            //Si no ha dado like, agregarlo
+            Like::create([
+                'post_id' => $post->id,
+                'user_rpe' => $user->rpe
+            ]);
+        
+        return response()->json(['success' => true]);
     }
 }

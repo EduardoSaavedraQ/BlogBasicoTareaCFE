@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{{ asset('plugins/dataTables/css/responsive.dataTables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/customDataTables.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @endsection
     <form class="max-w-md mx-auto mt-2" method="GET" action="{{route('posts.index')}}">
