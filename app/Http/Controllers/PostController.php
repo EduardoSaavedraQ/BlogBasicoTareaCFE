@@ -116,4 +116,17 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', $post->id);
     }
+
+    public function destroy(Post $post) {
+        // Verificar si el post existe
+        if (!$post) {
+            return response()->json(['message' => 'Post no encontrado.'], 404);
+        }
+
+        // Eliminar el post
+        $post->delete();
+
+        // Retornar una respuesta exitosa
+        return response()->json(['message' => 'Post eliminado exitosamente.'], 200);
+    }
 }

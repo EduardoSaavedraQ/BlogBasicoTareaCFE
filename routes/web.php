@@ -85,6 +85,7 @@ Route::controller(PostController::class)->group(function() {
     Route::get('/posts/admin', 'admin')->name('posts.admin');
     Route::get('/posts/dataTable', 'dataTable')->name('posts.dataTable');
     Route::get('/posts/{post}', 'show')->name('posts.show');
+    Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
     Route::post('/posts/{post}/like', 'like')->name('posts.like');
     Route::post('/posts/{post}/comment', 'comment')->name('posts.comment');
 });

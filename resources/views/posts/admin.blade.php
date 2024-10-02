@@ -78,6 +78,25 @@
                     }
                 }
             });
+
+            function deletePost(id) {
+                if (confirm('¿Estás seguro de que deseas eliminar este post?')) {
+                    $.ajax({
+                        url: '{{ route('posts.destroy', ':id') }}'.replace(':id', id),
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Necesario para las solicitudes DELETE en Laravel
+                        },
+                        success: function (result) {
+                            alert(result.message); // Mostrar el mensaje de éxito
+                            $('#posts').DataTable().ajax.reload(); // Recargar la tabla después de eliminar el post
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseJSON.message); // Mostrar el mensaje de error
+                        }
+                    });
+                }
+            }
         </script>
     @endsection
 </x-app2>
