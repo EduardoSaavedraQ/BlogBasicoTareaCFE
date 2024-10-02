@@ -31,7 +31,11 @@
                 </div>
             </div>
         </form>
-        @include('posts.partials.comment')
+        @foreach ($post->comments as $comment)
+            @include('posts.partials.comment')
+            <br>
+        @endforeach
+        
     </div>
     @section('js')
         <script>
