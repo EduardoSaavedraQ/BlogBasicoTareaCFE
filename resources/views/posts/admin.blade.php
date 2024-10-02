@@ -45,6 +45,13 @@
                             day: 'numeric',
                         });
                     }},
+                    {data: null, orderable: false, render: function (data, type, row) {
+                        return `
+                            <a href="{{ route('posts.show', ':id') }}" class="btn btn-info btn-sm">Ver</a>
+                            <button class="btn btn-danger btn-sm" onclick="deletePost(${row.id})">Eliminar</button>
+                            <a href="/posts/${row.id}/pdf" class="btn btn-warning btn-sm">PDF</a>
+                        `.replace(/:id/g, row.id);
+                    }},
                 ],
                 language: {
                     "decimal":        "",
