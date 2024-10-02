@@ -39,4 +39,9 @@ class Post extends Model
     public function hasLikedBy(User $user) {
         return $this->likes()->where('user_rpe', $user->rpe)->exists();
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
