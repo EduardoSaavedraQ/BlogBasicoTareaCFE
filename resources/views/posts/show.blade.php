@@ -21,7 +21,7 @@
         <p style="white-space:pre-wrap" class="mt-3 w-96 md:w-1/2 text-justify">{{ $post->content }}</p>
 
         <h3>Comentarios</h3>
-        <form class="w-full md:w-1/2 flex flex-col" action="" method="POST">
+        <form class="w-full md:w-1/2 flex flex-col" action="{{ route('posts.comment', $post->id) }}" method="POST">
             @csrf
             <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <label for="comment-field" class="sr-only">Your comment</label>

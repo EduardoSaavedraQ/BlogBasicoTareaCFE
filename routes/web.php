@@ -86,4 +86,5 @@ Route::controller(PostController::class)->group(function() {
     Route::get('/posts/dataTable', 'dataTable')->name('posts.dataTable');
     Route::get('/posts/{post}', 'show')->name('posts.show');
     Route::post('/posts/{post}/like', 'like')->name('posts.like');
+    Route::post('/posts/{post}/comment', 'comment')->name('posts.comment');
 });

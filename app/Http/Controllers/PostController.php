@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
 use Exception;
@@ -99,5 +100,19 @@ class PostController extends Controller
             ]);
         
         return response()->json(['success' => true]);
+    }
+
+    public function comment(Request $request, Post $post) {
+        $comment = $request->comment;
+        $user = auth()->user();
+
+        if ($comment !== null && $user)
+            Comment::create([
+                'post_id' => $post->id,
+                'user_rpe' => $user->rpe,
+                'content' => $comment
+            ]);
+
+        return redirect()->route('posts.show', $post->id);
     }
 }
