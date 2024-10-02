@@ -88,4 +88,5 @@ Route::controller(PostController::class)->group(function() {
     Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
     Route::post('/posts/{post}/like', 'like')->name('posts.like');
     Route::post('/posts/{post}/comment', 'comment')->name('posts.comment');
+    Route::get('/post/pdf', 'pdfTest')->name('posts.pdfTest');
 });

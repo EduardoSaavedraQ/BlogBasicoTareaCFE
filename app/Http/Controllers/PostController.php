@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,5 +129,10 @@ class PostController extends Controller
 
         // Retornar una respuesta exitosa
         return response()->json(['message' => 'Post eliminado exitosamente.'], 200);
+    }
+
+    public function pdfTest() {
+        $pdf = PDF::loadView('posts.pdf-post');
+        return $pdf->stream();
     }
 }
