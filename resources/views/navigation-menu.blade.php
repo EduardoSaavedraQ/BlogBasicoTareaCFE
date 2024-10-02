@@ -437,9 +437,11 @@
             <a href="{{ route('posts.create') }}">
                 <li class="px-3 py-1 hover:bg-gray-100">Publicar post</li>
             </a>
+            @if (auth()->user()->hasAnyRole(['admin']))
             <a href="{{ route('posts.admin') }}">
                 <li class="px-3 py-1 hover:bg-gray-100">Admin</li>
             </a>
+            @endif
         </ul>
     </div>
 
