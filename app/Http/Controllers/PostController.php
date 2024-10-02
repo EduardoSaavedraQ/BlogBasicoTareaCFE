@@ -131,8 +131,8 @@ class PostController extends Controller
         return response()->json(['message' => 'Post eliminado exitosamente.'], 200);
     }
 
-    public function pdfTest() {
-        $pdf = PDF::loadView('posts.pdf-post');
+    public function pdf(Post $post) {
+        $pdf = PDF::loadView('posts.pdf-post', compact('post'));
         return $pdf->stream();
     }
 }
