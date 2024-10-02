@@ -19,6 +19,19 @@
             <span class="text-sm text-right">{{ explode(' ', $post->created_at)[0] }}</span>
         </div>
         <p style="white-space:pre-wrap" class="mt-3 w-96 md:w-1/2 text-justify">{{ $post->content }}</p>
+
+        <h3>Comentarios</h3>
+        <form class="w-full md:w-1/2 flex flex-col" action="" method="POST">
+            @csrf
+            <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <label for="comment-field" class="sr-only">Your comment</label>
+                <textarea name="comment" id="comment-field" rows="6" class="w-full resize-none text-sm text-gray-900 bg-gray-200 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"></textarea>
+                <div class="px-3 py-2 border-t rounded bg-gray-600">
+                    <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">Publicar comentario</button>
+                </div>
+            </div>
+        </form>
+        @include('posts.partials.comment')
     </div>
     @section('js')
         <script>
